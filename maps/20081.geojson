@@ -1,7 +1,0 @@
-{
-"type": "FeatureCollection",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "geo_id": "1400000US20081463100", "state": "20", "county": "081", "tract": "463100" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -101.067904, 37.387779 ], [ -101.089653, 37.387721 ], [ -101.090454, 37.620184 ], [ -101.089667, 37.736337 ], [ -100.652251, 37.736275 ], [ -100.652642, 37.474848 ], [ -100.652728, 37.387627 ], [ -101.067904, 37.387779 ] ] ] ] } }
-]
-}

@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "geo_id": "1400000US17171970700", "state": "17", "county": "171", "tract": "970700" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -90.424116, 39.520974 ], [ -90.581055, 39.521728 ], [ -90.607545, 39.63264 ], [ -90.372833, 39.673097 ], [ -90.301801, 39.520192 ], [ -90.424116, 39.520974 ] ] ] ] } },
-{ "type": "Feature", "properties": { "geo_id": "1400000US17171970600", "state": "17", "county": "171", "tract": "970600" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -90.371353, 39.74631 ], [ -90.372711, 39.680133 ], [ -90.372833, 39.673097 ], [ -90.607545, 39.63264 ], [ -90.630574, 39.670494 ], [ -90.599105, 39.79006 ], [ -90.371353, 39.74631 ] ] ] ] } }
-]
-}

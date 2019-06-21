@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "geo_id": "1400000US51640070101", "state": "51", "county": "640", "tract": "070101" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -80.914173, 36.650246 ], [ -80.945328, 36.647437 ], [ -80.878301, 36.692618 ], [ -80.914173, 36.650246 ] ] ] ] } },
+{ "type": "Feature", "properties": { "geo_id": "1400000US51640070102", "state": "51", "county": "640", "tract": "070102" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -80.930851, 36.669879 ], [ -80.932271, 36.671593 ], [ -80.883689, 36.694731 ], [ -80.878301, 36.692618 ], [ -80.945328, 36.647437 ], [ -80.945491, 36.647496 ], [ -80.949577, 36.66302 ], [ -80.930851, 36.669879 ] ] ] ] } }
+]
+}

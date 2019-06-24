@@ -74,6 +74,12 @@ ALTER TABLE gz_2010_17_140_00_500k ADD geomsimp GEOMETRY;
 
 UPDATE gz_2010_17_140_00_500k SET geomsimp = topogeom::geometry;
 
+--Change column geo_id to geoid
+ALTER TABLE gz_2010_17_140_00_500k RENAME COLUMN geo_id TO geoid;
+
+--Remove 1400000US from geoid
+UPDATE gz_2010_01_140_00_500k SET geoid = REPLACE(geoid,'1400000US','')
+
 --Change files back to CRS 4326 from CRS 2163
 ALTER TABLE gz_2010_17_140_00_500k
  ALTER COLUMN geomsimp TYPE geometry(MultiPolygon,4326) 

@@ -121,7 +121,7 @@ BEGIN
 				)
 				FROM countytables.state%2$scounty%1$s;
 			--Save state file
-			COPY geojson.state%2$scounty%1$s TO ''D:\maps\state%2$scounty%1$s.geojson'';',counties.county,r.state);
+			COPY geojson.state%2$scounty%1$s TO ''D:\maps\%2$s%1$s.geojson'';',counties.county,r.state);
 		
 		END LOOP;
 		DROP TABLE countytables.distinctCounties;

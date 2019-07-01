@@ -29,7 +29,6 @@ BEGIN
 END
 $$ LANGUAGE 'plpgsql' STABLE STRICT;
 
-
 DO
 $$
 DECLARE
@@ -50,13 +49,13 @@ BEGIN
 			   );
 		
 		--Drop In Case
-		SELECT topology.DropTopology(''state_topo''); --NEEDS FIXING: THIS LINE CAUSES ERROR WHEN MULTIPLE STATE FILES ARE BEING SIMPLIFIED.
+		SELECT topology.DropTopology(''state_topo'');
 
 		-- Create a topology
-		SELECT topology.CreateTopology(''state_topo'', find_srid(''shapefiles'', ''%1$s'', ''geom''));
+		SELECT topology.CreateTopology(''state_topo_%1$s'', find_srid(''shapefiles'', ''%1$s'', ''geom''));
 
 		-- Add a layer to it.
-		SELECT topology.AddTopoGeometryColumn(''state_topo'', ''shapefiles'', ''%1$s'', ''topogeom'', ''MULTIPOLYGON'');
+		SELECT topology.AddTopoGeometryColumn(''state_topo_%1$s'', ''shapefiles'', ''%1$s'', ''topogeom'', ''MULTIPOLYGON'');
 		
 		DROP TABLE IF EXISTS tempholder;
 		CREATE TABLE tempholder As SELECT * FROM shapefiles.%1$s;',rec.table_name);
@@ -67,7 +66,7 @@ BEGIN
 				RAISE NOTICE 'state = %', r.state;
 
 			UPDATE tempholder 
-			SET topogeom = toTopoGeom(geom,'state_topo', 1) 
+			SET topogeom = toTopoGeom(geom,format('state_topo_%1$s',rec.table_name), 1) 
 			WHERE state = r.state;
 		   EXCEPTION
 			WHEN OTHERS THEN
@@ -77,7 +76,7 @@ BEGIN
 		 
 		-- Simplify all edges up to 1 km
 		
-		PERFORM SimplifyEdgeGeom('state_topo', edge_id, 10000) FROM state_topo.edge;
+		EXECUTE format('SELECT SimplifyEdgeGeom(''state_topo_%1$s'', edge_id, 10000) FROM state_topo_%1$s.edge;',rec.table_name);
 		--Add geomsimp table 
 		ALTER TABLE tempholder ADD geomsimp GEOMETRY;
 

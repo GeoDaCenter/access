@@ -1,0 +1,26 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Allegany County">Allegany County</option>' +
+   '<option value="Anne Arundel County">Anne Arundel County</option>' +
+   '<option value="Baltimore County">Baltimore County</option>' +
+   '<option value="Calvert County">Calvert County</option>' +
+   '<option value="Caroline County">Caroline County</option>' +
+   '<option value="Carroll County">Carroll County</option>' +
+   '<option value="Cecil County">Cecil County</option>' +
+   '<option value="Charles County">Charles County</option>' +
+   '<option value="Dorchester County">Dorchester County</option>' +
+   '<option value="Frederick County">Frederick County</option>' +
+   '<option value="Garrett County">Garrett County</option>' +
+   '<option value="Harford County">Harford County</option>' +
+   '<option value="Howard County">Howard County</option>' +
+   '<option value="Kent County">Kent County</option>' +
+   '<option value="Montgomery County">Montgomery County</option>' +
+   '<option value="Prince George's County">Prince George's County</option>' +
+   '<option value="Queen Anne's County">Queen Anne's County</option>' +
+   '<option value="Somerset County">Somerset County</option>' +
+   '<option value="Talbot County">Talbot County</option>' +
+   '<option value="Washington County">Washington County</option>' +
+   '<option value="Wicomico County">Wicomico County</option>' +
+   '<option value="Worcester County">Worcester County</option>' +
+'</select>
+</form>

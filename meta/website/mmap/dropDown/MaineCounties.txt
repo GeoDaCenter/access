@@ -1,0 +1,20 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Androscoggin County">Androscoggin County</option>' +
+   '<option value="Aroostook County">Aroostook County</option>' +
+   '<option value="Cumberland County">Cumberland County</option>' +
+   '<option value="Franklin County">Franklin County</option>' +
+   '<option value="Hancock County">Hancock County</option>' +
+   '<option value="Kennebec County">Kennebec County</option>' +
+   '<option value="Knox County">Knox County</option>' +
+   '<option value="Lincoln County">Lincoln County</option>' +
+   '<option value="Oxford County">Oxford County</option>' +
+   '<option value="Penobscot County">Penobscot County</option>' +
+   '<option value="Piscataquis County">Piscataquis County</option>' +
+   '<option value="Sagadahoc County">Sagadahoc County</option>' +
+   '<option value="Somerset County">Somerset County</option>' +
+   '<option value="Waldo County">Waldo County</option>' +
+   '<option value="Washington County">Washington County</option>' +
+   '<option value="York County">York County</option>' +
+'</select>
+</form>

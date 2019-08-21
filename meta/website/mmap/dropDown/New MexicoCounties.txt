@@ -1,0 +1,36 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Bernalillo County">Bernalillo County</option>' +
+   '<option value="Catron County">Catron County</option>' +
+   '<option value="Chaves County">Chaves County</option>' +
+   '<option value="Cibola County">Cibola County</option>' +
+   '<option value="Colfax County">Colfax County</option>' +
+   '<option value="Curry County">Curry County</option>' +
+   '<option value="Dona Ana County">Dona Ana County</option>' +
+   '<option value="Eddy County">Eddy County</option>' +
+   '<option value="Grant County">Grant County</option>' +
+   '<option value="Guadalupe County">Guadalupe County</option>' +
+   '<option value="Harding County">Harding County</option>' +
+   '<option value="Hidalgo County">Hidalgo County</option>' +
+   '<option value="Lea County">Lea County</option>' +
+   '<option value="Lincoln County">Lincoln County</option>' +
+   '<option value="Los Alamos County">Los Alamos County</option>' +
+   '<option value="Luna County">Luna County</option>' +
+   '<option value="McKinley County">McKinley County</option>' +
+   '<option value="Mora County">Mora County</option>' +
+   '<option value="Otero County">Otero County</option>' +
+   '<option value="Quay County">Quay County</option>' +
+   '<option value="Rio Arriba County">Rio Arriba County</option>' +
+   '<option value="Roosevelt County">Roosevelt County</option>' +
+   '<option value="San Juan County">San Juan County</option>' +
+   '<option value="San Miguel County">San Miguel County</option>' +
+   '<option value="Sandoval County">Sandoval County</option>' +
+   '<option value="Santa Fe County">Santa Fe County</option>' +
+   '<option value="Sierra County">Sierra County</option>' +
+   '<option value="Socorro County">Socorro County</option>' +
+   '<option value="Taos County">Taos County</option>' +
+   '<option value="Torrance County">Torrance County</option>' +
+   '<option value="Union County">Union County</option>' +
+   '<option value="Valencia County">Valencia County</option>' +
+'</select>
+</form>

@@ -1,0 +1,27 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Albany County">Albany County</option>' +
+   '<option value="Big Horn County">Big Horn County</option>' +
+   '<option value="Campbell County">Campbell County</option>' +
+   '<option value="Carbon County">Carbon County</option>' +
+   '<option value="Converse County">Converse County</option>' +
+   '<option value="Crook County">Crook County</option>' +
+   '<option value="Fremont County">Fremont County</option>' +
+   '<option value="Goshen County">Goshen County</option>' +
+   '<option value="Hot Springs County">Hot Springs County</option>' +
+   '<option value="Johnson County">Johnson County</option>' +
+   '<option value="Laramie County">Laramie County</option>' +
+   '<option value="Lincoln County">Lincoln County</option>' +
+   '<option value="Natrona County">Natrona County</option>' +
+   '<option value="Niobrara County">Niobrara County</option>' +
+   '<option value="Park County">Park County</option>' +
+   '<option value="Platte County">Platte County</option>' +
+   '<option value="Sheridan County">Sheridan County</option>' +
+   '<option value="Sublette County">Sublette County</option>' +
+   '<option value="Sweetwater County">Sweetwater County</option>' +
+   '<option value="Teton County">Teton County</option>' +
+   '<option value="Uinta County">Uinta County</option>' +
+   '<option value="Washakie County">Washakie County</option>' +
+   '<option value="Weston County">Weston County</option>' +
+'</select>
+</form>

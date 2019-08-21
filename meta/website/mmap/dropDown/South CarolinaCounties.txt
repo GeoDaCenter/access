@@ -1,0 +1,50 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Abbeville County">Abbeville County</option>' +
+   '<option value="Aiken County">Aiken County</option>' +
+   '<option value="Allendale County">Allendale County</option>' +
+   '<option value="Anderson County">Anderson County</option>' +
+   '<option value="Bamberg County">Bamberg County</option>' +
+   '<option value="Barnwell County">Barnwell County</option>' +
+   '<option value="Beaufort County">Beaufort County</option>' +
+   '<option value="Berkeley County">Berkeley County</option>' +
+   '<option value="Calhoun County">Calhoun County</option>' +
+   '<option value="Charleston County">Charleston County</option>' +
+   '<option value="Cherokee County">Cherokee County</option>' +
+   '<option value="Chester County">Chester County</option>' +
+   '<option value="Chesterfield County">Chesterfield County</option>' +
+   '<option value="Clarendon County">Clarendon County</option>' +
+   '<option value="Colleton County">Colleton County</option>' +
+   '<option value="Darlington County">Darlington County</option>' +
+   '<option value="Dillon County">Dillon County</option>' +
+   '<option value="Dorchester County">Dorchester County</option>' +
+   '<option value="Edgefield County">Edgefield County</option>' +
+   '<option value="Fairfield County">Fairfield County</option>' +
+   '<option value="Florence County">Florence County</option>' +
+   '<option value="Georgetown County">Georgetown County</option>' +
+   '<option value="Greenville County">Greenville County</option>' +
+   '<option value="Greenwood County">Greenwood County</option>' +
+   '<option value="Hampton County">Hampton County</option>' +
+   '<option value="Horry County">Horry County</option>' +
+   '<option value="Jasper County">Jasper County</option>' +
+   '<option value="Kershaw County">Kershaw County</option>' +
+   '<option value="Lancaster County">Lancaster County</option>' +
+   '<option value="Laurens County">Laurens County</option>' +
+   '<option value="Lee County">Lee County</option>' +
+   '<option value="Lexington County">Lexington County</option>' +
+   '<option value="Marion County">Marion County</option>' +
+   '<option value="Marlboro County">Marlboro County</option>' +
+   '<option value="McCormick County">McCormick County</option>' +
+   '<option value="Newberry County">Newberry County</option>' +
+   '<option value="Oconee County">Oconee County</option>' +
+   '<option value="Orangeburg County">Orangeburg County</option>' +
+   '<option value="Pickens County">Pickens County</option>' +
+   '<option value="Richland County">Richland County</option>' +
+   '<option value="Saluda County">Saluda County</option>' +
+   '<option value="Spartanburg County">Spartanburg County</option>' +
+   '<option value="Sumter County">Sumter County</option>' +
+   '<option value="Union County">Union County</option>' +
+   '<option value="Williamsburg County">Williamsburg County</option>' +
+   '<option value="York County">York County</option>' +
+'</select>
+</form>

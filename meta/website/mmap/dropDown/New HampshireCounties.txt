@@ -1,0 +1,14 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Belknap County">Belknap County</option>' +
+   '<option value="Carroll County">Carroll County</option>' +
+   '<option value="Cheshire County">Cheshire County</option>' +
+   '<option value="Coos County">Coos County</option>' +
+   '<option value="Grafton County">Grafton County</option>' +
+   '<option value="Hillsborough County">Hillsborough County</option>' +
+   '<option value="Merrimack County">Merrimack County</option>' +
+   '<option value="Rockingham County">Rockingham County</option>' +
+   '<option value="Strafford County">Strafford County</option>' +
+   '<option value="Sullivan County">Sullivan County</option>' +
+'</select>
+</form>

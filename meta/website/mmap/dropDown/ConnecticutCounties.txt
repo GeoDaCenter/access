@@ -1,0 +1,12 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Fairfield County">Fairfield County</option>' +
+   '<option value="Hartford County">Hartford County</option>' +
+   '<option value="Litchfield County">Litchfield County</option>' +
+   '<option value="Middlesex County">Middlesex County</option>' +
+   '<option value="New Haven County">New Haven County</option>' +
+   '<option value="New London County">New London County</option>' +
+   '<option value="Tolland County">Tolland County</option>' +
+   '<option value="Windham County">Windham County</option>' +
+'</select>
+</form>

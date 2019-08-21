@@ -1,0 +1,16 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Aleutians East Borough">Aleutians East Borough</option>' +
+   '<option value="Bristol Bay Borough">Bristol Bay Borough</option>' +
+   '<option value="Denali Borough">Denali Borough</option>' +
+   '<option value="Fairbanks North Star Borough">Fairbanks North Star Borough</option>' +
+   '<option value="Haines Borough">Haines Borough</option>' +
+   '<option value="Kenai Peninsula Borough">Kenai Peninsula Borough</option>' +
+   '<option value="Ketchikan Gateway Borough">Ketchikan Gateway Borough</option>' +
+   '<option value="Kodiak Island Borough">Kodiak Island Borough</option>' +
+   '<option value="Lake and Peninsula Borough">Lake and Peninsula Borough</option>' +
+   '<option value="Matanuska-Susitna Borough">Matanuska-Susitna Borough</option>' +
+   '<option value="North Slope Borough">North Slope Borough</option>' +
+   '<option value="Northwest Arctic Borough">Northwest Arctic Borough</option>' +
+'</select>
+</form>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<head>    
+
+    <link rel="icon" type="image/png" href="/site/fav/16.png" sizes="16x16"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="/site/fav/32.png" sizes="32x32"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="/site/fav/96.png" sizes="96x96"><!--FROM SITE NUN-->
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_PREFER_CANVAS = false; L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+
+    <script type="text/javascript" src="doc_cmap.js"></script><!--FROM SITE NUN-->
+    <script type="text/javascript" src="colors.js"></script><!--FROM SITE NUN-->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+
+    <link rel="stylesheet" href="migration.css"/><!--FROM SITE NUN-->
+
+    <style>
+
+      #map {
+        top:0;bottom:0;right:0;left:0;
+        position : relative;
+        width : 100.0%;
+        height: 100.0%;
+        left: 0.0%;
+        top: 0.0%;
+      }
+
+			.info {
+			  font-size: 20px
+			  font-family: Arial, Helvetica, sans-serif;
+			  background: rgba(255,255,255,0.8);
+			  padding: 6px 8px; border-radius: 5px;
+			  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			}
+
+      .legend .cblock { padding 0px; margin: 0px;  width: 13px; opacity: 0.7; }
+      .legend .ltext  { padding: 0px 5px 0px 10px; }
+      #legend_table td.ltext {text-align: center; font-size: 14px; color: #777; width: 6em;}
+			td { 
+				padding: 0 5px;
+				width: 14px;
+			}
+
+      a {
+        font: 12px Arial, Helvetica, sans-serif;
+        color: #777;
+        text-decoration: none;
+      }
+      .btn {
+        border: none;
+        background-color: inherit;
+        padding: 7px 14px;
+        font-size: 15px;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .btn:hover {background: #eee;}
+
+    </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+</head>
+<body>    
+
+    
+  <div class="folium-map" id="map" ></div>
+        
+</body>
+<script>
+
+
+var map = L.map('map', {center: [41.796, -87.576], zoom: 9, zoomControl: false, worldCopyJump: true, crs: L.CRS.EPSG3857});
+
+var tile_layer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+                             {"attribution": null, "detectRetina": false, "maxZoom": 16, "minZoom": 4,
+                              "noWrap": false, "subdomains": "abc"}).addTo(map);
+
+var county_maps = [];
+var transit = [4013, 6037, 17031, 36061, 36047, 36081, 36005, 36085, 42101, 48201, 11001];
+
+function pad_county(num) { //Used to find geojson file
+  return (num.toString()).substring(0,5);
+}
+
+function isFloat(n){ //Checks if number is a float
+    return Number(n) === n && n % 1 !== 0;
+}
+
+function stdv(nums, mean){ //finds standard deviation
+  n = nums.length;
+  s = Math.sqrt(nums.map(x => Math.pow(x-mean,2)).reduce((a,b) => a+b)/(n-1));
+  return s;
+}
+
+function findMean(nums){ 
+  n = nums.length;
+  mean = nums.reduce((a,b) => a+b)/n;
+  return mean;
+}
+
+// This is fed the link where data will be stored and checks every second to see if it is ready
+function checkIfReady(link){
+  
+  var xhr = new XMLHttpRequest();
+
+  xhr.open('GET', link);
+  xhr.send(null);
+
+  xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = null
+    if (this.status != 200){
+
+      setTimeout(function() {
+        checkIfReady(link);
+      }, 1000); //Amount of miliseconds before checking
+    } else {
+      document.getElementById("loading").src = ''; //remove loading icon
+      document.getElementById("dl_link").href = link; //Sets download link
+      build_map(link);
+    }
+  }
+}
+
+previousFile = '';
+changed = false;
+function findAllSubmissions() {
+  fileName = '';
+  try {
+    fileName = supplyFile.files[0].name;
+    if (previousFile != fileName){
+      changed = true;
+      previousFile = fileName;
+      FCAfile = '';
+      SSFCAfile = '';
+      SSSFCAfile = '';
+      RAAMfile = '';
+    }
+    else {
+      changed = false;
+    }
+  }
+  catch {
+    fileName = '';
+  }
+
+  //recieves location info
+  var county = document.getElementById("county_button");
+  var city = document.getElementById("city_button");
+
+  if (fileName.includes('.csv') == true && (county.checked || city.checked) && changed == true){
+    getDataFromCSV();
+  }
+  else if (changed == false){
+    var methodBar = document.getElementById("method");
+    var method = methodBar.options[methodBar.selectedIndex].text;
+    updateMap(method);
+  }
+  else{
+    alert("Please fill out everything on the page");
+  }
+  
+}
+
+function updateMap(method){
+  if (method == 'FCA') {
+    if (FCAfile == ''){
+      getDataFromCSV();
+    }
+    else {
+      build_map(FCAfile);
+    }
+  }
+  else if (method == '2SFCA'){
+    if (SSFCAfile == ''){
+      getDataFromCSV();
+    }
+    else {
+      build_map(SSFCAfile);
+    }
+  }
+  else if (method == '3SFCA'){
+    if (SSSFCAfile == ''){
+      getDataFromCSV();
+    }
+    else {
+      build_map(SSSFCAfile);
+    }
+  }
+  else {
+    if (RAAMfile == ''){
+      getDataFromCSV();
+    }
+    else {
+      build_map(RAAMfile);
+    }
+  }
+}
+
+//Processes user fed data in preparation for Lambda
+function getDataFromCSV() {
+  var supplyFile = document.getElementById("supplyFile");
+  var tracts = []  
+  var r = new FileReader();
+  var lambdaIn = {};
+  r.onload = function (e) {
+    var contents = e.target.result;
+    lines = contents.toString().split("\n"); //Splits the csv by line
+    first = lines[0].split(',');
+
+    if (first[0].trim() != "geoid" || first[1].trim() != "supply"){
+      alert("Please make sure the first line of your csv has headers geoid and supply.");
+    }
+    else {   
+      var loading = document.getElementById("loading");
+      loading.src = 'loading.gif';
+
+      for (var i = 1; i < lines.length; i++) {
+        var both = lines[i].split(",");
+        if (lines[i] != ""){
+          lambdaIn[both[0]] = both[1];
+        }
+      }
+      fileLoc = lambda_request(lambdaIn);
+      checkIfReady(fileLoc)
+    }
+  }
+  r.readAsText(supplyFile.files[0]);
+
+}
+
+function csv_to_array(payload) { //Turns csv into array
+
+  var lines = payload.split("\n");
+
+  st_array = [];
+  for (var deviations = -3; deviations <= 3; deviations += .5){
+    st_array.push([]);
+  }
+
+  var allVals= [];
+  for (var li = 1; li < lines.length; li++){
+    
+    var currentline = lines[li].split(",");
+    if (currentline.length == 2 && isFloat(parseFloat(currentline[1])) == true){ 
+      allVals.push(parseFloat(currentline[1]));
+    }
+  }
+
+  var mean = findMean(allVals);
+  var st = stdv(allVals, mean);
+
+  for (var li = 1; li < lines.length; li++){
+    var currentline = lines[li].split(",");
+    
+    if (currentline.length == 2){ 
+      var destination = parseInt(currentline[0]);
+      var access = parseFloat(currentline[1]);
+      if(st != 0){
+        var awayFromMean = parseInt(2*(access-mean)/st)/2;
+      }else{
+        var awayFromMean = 0;
+      }
+      
+      try {
+        st_array[2*(awayFromMean + 3)].push(destination);
+      }
+      catch(err) {
+      }
+      
+    }
+  }
+  return st_array;
+
+}
+function cost_array_to_dict(a) { //Turn previous array into dictionary
+
+  dict = [];
+  
+  for (var cost in costs) {
+    costs[cost].forEach(function (tract) {
+      dict[tract] = parseInt(cost/2 - 3);
+    }); 
+  }
+
+  return dict;
+
+}
+
+
+function highlightFeature(e) { // Highlights area where mouse is hovering
+  var layer = e.target;
+  if (layer.options.opacity == 0) return;
+
+  layer.setStyle({
+    weight: 3,
+    opacity: 1,
+    // color: '#000',
+    dashArray: '',
+    fillOpacity: 0.9
+  });
+
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+}
+
+
+
+function resetHighlight(e) { //RESETS PREVIOUS FN EFFECTS
+
+  var layer = e.target;
+
+  if (layer.options.opacity > 0) {
+
+    layer.setStyle({
+      weight: 1,
+      opacity: 0.6,
+      fillOpacity: 0.5,
+    });
+  }
+}
+
+
+
+function onEachFeature(feature, layer) { //CONTROLS COLOR OF HOVERED LOCATION
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight
+  });
+}
+
+function style(feature) { //CHANGE THIS TO CHANGE SHADING
+
+  this_geo = parseInt(feature.properties.geoid);
+  
+  for (var deviations = -3; deviations <= 3; deviations += .5) { 
+    if (costs[2*(deviations + 3)].indexOf(this_geo) != -1) {
+      return {
+        weight: 1,
+        opacity: 0.6,
+        color: getColor(deviations),
+        fillOpacity: 0.5,
+        fillColor: getColor(deviations)
+      };
+    }
+  }
+
+  return { opacity: 0, fillOpacity: 0 };
+
+}
+
+
+var county_maps = [];
+function refresh_counties(counties) {
+
+  county_maps.forEach(function (co) { //REMOVES CURRENT STUFF
+    co.removeFrom(map);
+  }); 
+
+  county_maps = [];
+  counties.forEach(function (co) { // GRABS GEOGRAPHY
+    county_maps.push(new L.GeoJSON.AJAX("co_maps/" + pad_county(co) + ".geojson", //LOCATION OF COUNTY FILES SHAPES
+                                        {style : style, onEachFeature : onEachFeature}));
+    county_maps[county_maps.length-1].addTo(map);
+  }); 
+
+}
+
+var FCAfile = '';
+var SSFCAfile = '';
+var SSSFCAfile = '';
+var RAAMfile = '';
+function lambda_request(supplyData){ // SENDS DATA TO LAMBDA FOR PROCESSING
+  //recieves method info
+  var methodBar = document.getElementById("method");
+  var method = methodBar.options[methodBar.selectedIndex].text;
+
+  //recieves location info
+  var state = '';
+  var location = '';
+  var county = document.getElementById("county_button");
+  var city = document.getElementById("city_button");
+  var locMenu = document.getElementById("dropDown");
+  var locMenu = document.getElementById("dropDown");
+  if (county.checked){
+    var countyDropDown = document.getElementById("countyDropDown")
+    state = locMenu.options[locMenu.selectedIndex].text;
+    location = countyDropDown.options[countyDropDown.selectedIndex].text;
+  } else{
+    location = locMenu.options[locMenu.selectedIndex].text;
+  }
+  var params = JSON.stringify({tract : supplyData, method: method, location: location, state: state});
+  var s3Link = ""
+  $.ajax({ 
+    url: 'https://pgaln064og.execute-api.us-east-2.amazonaws.com/default/accessWrapper',
+    method: "POST",
+    data: params,// Params being sent
+    dataType: 'json', 
+    async: false, 
+    success: function(output) {
+      s3Link = output;
+      if (method == 'FCA') {
+        FCAfile = s3Link;
+      }
+      else if (method == '2SFCA'){
+        SSFCAfile = s3Link;
+      }
+      else if (method == '3SFCA'){
+        SSSFCAfile = s3Link;
+      }
+      else {
+        RAAMfile = s3Link;
+      }
+                    }
+  });
+  return s3Link
+} 
+
+var costs = null;
+var cost_dict = null;
+function build_map(link) { //Builds geographies
+
+  $.ajax({
+    url: link, 
+    dataType: 'text',
+    success: function(payload) {
+      costs = csv_to_array(payload);
+      cost_dict = cost_array_to_dict();
+
+      var counties = [];
+      for (var i = 0; i <= 12; i++) { //HERE
+        costs[i].forEach(function (tract) {
+          county = Math.floor(parseInt(tract)/1000000);
+          if (counties.indexOf(county) == -1) {
+            counties.push(county);
+          } 
+        }); 
+      }
+
+      refresh_counties(counties); // ONLY HAS TO DO WITH GEO
+    }
+  });
+
+}
+//build_map('/site/fav/2f817424d4dc4b1fbf8c7b972b09136c.csv');
+function readTextFile(file) //FUNCTION USED TO RECIEVE DROP DOWN BAR DATA
+{
+  xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",file,false);
+  xmlhttp.send();
+
+  var test = xmlhttp.responseText;
+  return test;
+}
+function giveInfo(){
+  alert("Please upload a csv file with two columns. The columns should have the words 'geoid' and 'supply' as headers. The geoids should be 10 or 11 digit tracts and the supply columns should have the amount of resources in its tract.")
+}
+var legend = L.control({position: 'topright'});
+
+
+function generateLegend(fileName, countyChecked = false, cityChecked = false, state = "empty.txt", statePos = "0", savedFile, curMethod = "0"){
+  legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend');
+
+    var labels = [];
+    cmap_z.forEach( function(v) {
+      labels.push('<tr>' + 
+          '<td class="legend cblock" id="leg' + v.upper+ '" style="color:' + v.text + '; background:' + v.fill + '"></td>' +
+          '<td class="ltext">' + v.label + '</td></tr>');
+    });
+
+    title = '<h3 id="time_header">Spatial Access</h3>\n';
+
+    docsUploader = '<input type="file" id="supplyFile">' + 
+                    '<button class = "btn info" onclick="giveInfo();">More Info</button>' +
+                    '<label for="supplyFile"> Please upload the supply file.</label>';
+
+    table = '<table id="legend_table">' + labels.join('') + '</table>'
+
+    radio2 = '<form action="/action_page.php">' +
+                '<select name="Access model" id="method">' +
+                  '<option value="FCA">FCA</option>' +
+                  '<option value="2SFCA">2SFCA</option>' +
+                  //'<option value="2SFCA">E2SFCA</option>' +
+                  '<option value="3SFCA">3SFCA</option>' +
+                  '<option value="RAAM">RAAM</option>' +
+                '</select>' +
+                '<br><br>' +
+              '</form>';
+    if (countyChecked == true){
+      radio3 = '<form name="geotype">' +
+            '  <label><input type="radio" name="myRadios" id="county_button" value="County" checked="checked"/> County</label>' +
+            '  <label><input type="radio" name="myRadios" id="city_button" value="City"/> City</label>' +
+            '</form>';
+    } else if (cityChecked == true){
+        radio3 = '<form name="geotype">' +
+              '  <label><input type="radio" name="myRadios" id="county_button" value="County"/> County</label>' +
+              '  <label><input type="radio" name="myRadios" id="city_button" value="City" checked="checked"/> City</label>' +
+              '</form>';
+    } else {
+      radio3 = '<form name="geotype">' +
+            '  <label><input type="radio" name="myRadios" id="county_button" value="County"/> County</label>' +
+            '  <label><input type="radio" name="myRadios" id="city_button" value="City"/> City</label>' +
+            '</form>';
+    }
+
+    
+
+    states = '<form>' +
+                '<select class="dropdown-menu" id="dropDown">' +
+                  readTextFile('dropDown/' + fileName) +
+              '</form>';
+
+    counties = readTextFile('dropDown/' + state);
+
+    submit = '<input id="Submit" type="button" value="Submit" onclick="findAllSubmissions();" />'
+
+    picture = '<img src="" id="loading">'
+
+    download = '<p class="pcenter"><a id="dl_link" name="dl_link" style="color:#777;"href="/site/fav/2f817424d4dc4b1fbf8c7b972b09136c.csv" download="isochrone.csv">⬇ Get Data</a></p>';
+
+    div.innerHTML = title + '<hr>'  + table + '<hr>' + radio2 + '<hr>' + radio3 + '<hr>' + states + counties + '<hr>' + docsUploader + '<hr>'+ submit + '<hr>' + download + picture;
+    
+    return div;
+  };
+
+  legend.addTo(map);
+  var county = document.getElementById("county_button");
+  var city = document.getElementById("city_button");
+  var locMenu = document.getElementById("dropDown");
+  locMenu.selectedIndex = statePos;
+
+  var supplyFile = document.getElementById("supplyFile");
+  supplyFile.files = savedFile;
+
+  var method = document.getElementById("method");
+  method.selectedIndex = curMethod;
+  
+  locMenu.onchange = function(){
+    if (county.checked){
+      var dropLoc = locMenu.options[locMenu.selectedIndex].text
+      generateLegend("state.txt",true,false,dropLoc + 'Counties.txt', locMenu.selectedIndex, supplyFile.files, method.selectedIndex)
+    }
+  }
+  method.onchange = function(){
+    try {
+      fileName = supplyFile.files[0].name;
+      currentMethod = method.options[method.selectedIndex].text;
+      myFile = '';
+      if (currentMethod == 'FCA') {
+        myFile = FCAfile; 
+      }
+      else if (currentMethod == '2SFCA'){
+        myFile = SSFCAfile;
+      }
+      else if (currentMethod == '3SFCA'){
+        myFile = SSSFCAfile;
+      }
+      else {
+        myFile = RAAMfile;
+      }
+
+
+      if (previousFile == fileName && myFile != ''){
+        updateMap(currentMethod);
+      }
+    }
+    catch {
+      
+    }
+
+  }
+  county.addEventListener("click", function(e) {
+    generateLegend("state.txt", true, false, 'IllinoisCounties.txt',"12", supplyFile.files, method.selectedIndex); 
+  });
+  city.addEventListener("click", function(e) {
+    generateLegend("cities.txt",  false, true, 'empty.txt',"0", supplyFile.files, method.selectedIndex); 
+  });
+
+}
+
+generateLegend("starter.txt", false, false, "empty.txt","0");
+
+
+
+legend.getContainer().addEventListener('mouseover', function () {
+    map.dragging.disable();
+    on_control = true;
+});
+
+// Re-enable dragging when user's cursor leaves the element
+legend.getContainer().addEventListener('mouseout', function () {
+    map.dragging.enable();
+    on_control = false;
+});
+
+
+</script>
+
+

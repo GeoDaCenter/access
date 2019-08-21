@@ -1,0 +1,20 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Churchill County">Churchill County</option>' +
+   '<option value="Clark County">Clark County</option>' +
+   '<option value="Douglas County">Douglas County</option>' +
+   '<option value="Elko County">Elko County</option>' +
+   '<option value="Esmeralda County">Esmeralda County</option>' +
+   '<option value="Eureka County">Eureka County</option>' +
+   '<option value="Humboldt County">Humboldt County</option>' +
+   '<option value="Lander County">Lander County</option>' +
+   '<option value="Lincoln County">Lincoln County</option>' +
+   '<option value="Lyon County">Lyon County</option>' +
+   '<option value="Mineral County">Mineral County</option>' +
+   '<option value="Nye County">Nye County</option>' +
+   '<option value="Pershing County">Pershing County</option>' +
+   '<option value="Storey County">Storey County</option>' +
+   '<option value="Washoe County">Washoe County</option>' +
+   '<option value="White Pine County">White Pine County</option>' +
+'</select>
+</form>

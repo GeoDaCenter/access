@@ -1,0 +1,19 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Apache County">Apache County</option>' +
+   '<option value="Cochise County">Cochise County</option>' +
+   '<option value="Coconino County">Coconino County</option>' +
+   '<option value="Gila County">Gila County</option>' +
+   '<option value="Graham County">Graham County</option>' +
+   '<option value="Greenlee County">Greenlee County</option>' +
+   '<option value="La Paz County">La Paz County</option>' +
+   '<option value="Maricopa County">Maricopa County</option>' +
+   '<option value="Mohave County">Mohave County</option>' +
+   '<option value="Navajo County">Navajo County</option>' +
+   '<option value="Pima County">Pima County</option>' +
+   '<option value="Pinal County">Pinal County</option>' +
+   '<option value="Santa Cruz County">Santa Cruz County</option>' +
+   '<option value="Yavapai County">Yavapai County</option>' +
+   '<option value="Yuma County">Yuma County</option>' +
+'</select>
+</form>

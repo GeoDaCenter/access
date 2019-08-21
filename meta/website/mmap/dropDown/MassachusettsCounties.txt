@@ -1,0 +1,18 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Barnstable County">Barnstable County</option>' +
+   '<option value="Berkshire County">Berkshire County</option>' +
+   '<option value="Bristol County">Bristol County</option>' +
+   '<option value="Dukes County">Dukes County</option>' +
+   '<option value="Essex County">Essex County</option>' +
+   '<option value="Franklin County">Franklin County</option>' +
+   '<option value="Hampden County">Hampden County</option>' +
+   '<option value="Hampshire County">Hampshire County</option>' +
+   '<option value="Middlesex County">Middlesex County</option>' +
+   '<option value="Nantucket County">Nantucket County</option>' +
+   '<option value="Norfolk County">Norfolk County</option>' +
+   '<option value="Plymouth County">Plymouth County</option>' +
+   '<option value="Suffolk County">Suffolk County</option>' +
+   '<option value="Worcester County">Worcester County</option>' +
+'</select>
+</form>

@@ -1,0 +1,48 @@
+<form>
+<select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="Ada County">Ada County</option>' +
+   '<option value="Adams County">Adams County</option>' +
+   '<option value="Bannock County">Bannock County</option>' +
+   '<option value="Bear Lake County">Bear Lake County</option>' +
+   '<option value="Benewah County">Benewah County</option>' +
+   '<option value="Bingham County">Bingham County</option>' +
+   '<option value="Blaine County">Blaine County</option>' +
+   '<option value="Boise County">Boise County</option>' +
+   '<option value="Bonner County">Bonner County</option>' +
+   '<option value="Bonneville County">Bonneville County</option>' +
+   '<option value="Boundary County">Boundary County</option>' +
+   '<option value="Butte County">Butte County</option>' +
+   '<option value="Camas County">Camas County</option>' +
+   '<option value="Canyon County">Canyon County</option>' +
+   '<option value="Caribou County">Caribou County</option>' +
+   '<option value="Cassia County">Cassia County</option>' +
+   '<option value="Clark County">Clark County</option>' +
+   '<option value="Clearwater County">Clearwater County</option>' +
+   '<option value="Custer County">Custer County</option>' +
+   '<option value="Elmore County">Elmore County</option>' +
+   '<option value="Franklin County">Franklin County</option>' +
+   '<option value="Fremont County">Fremont County</option>' +
+   '<option value="Gem County">Gem County</option>' +
+   '<option value="Gooding County">Gooding County</option>' +
+   '<option value="Idaho County">Idaho County</option>' +
+   '<option value="Jefferson County">Jefferson County</option>' +
+   '<option value="Jerome County">Jerome County</option>' +
+   '<option value="Kootenai County">Kootenai County</option>' +
+   '<option value="Latah County">Latah County</option>' +
+   '<option value="Lemhi County">Lemhi County</option>' +
+   '<option value="Lewis County">Lewis County</option>' +
+   '<option value="Lincoln County">Lincoln County</option>' +
+   '<option value="Madison County">Madison County</option>' +
+   '<option value="Minidoka County">Minidoka County</option>' +
+   '<option value="Nez Perce County">Nez Perce County</option>' +
+   '<option value="Oneida County">Oneida County</option>' +
+   '<option value="Owyhee County">Owyhee County</option>' +
+   '<option value="Payette County">Payette County</option>' +
+   '<option value="Power County">Power County</option>' +
+   '<option value="Shoshone County">Shoshone County</option>' +
+   '<option value="Teton County">Teton County</option>' +
+   '<option value="Twin Falls County">Twin Falls County</option>' +
+   '<option value="Valley County">Valley County</option>' +
+   '<option value="Washington County">Washington County</option>' +
+'</select>
+</form>

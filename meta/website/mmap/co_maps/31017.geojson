@@ -1,0 +1,1 @@
+{"type" : "FeatureCollection", "features" : [{"type" : "Feature", "geometry" : {"type":"MultiPolygon","coordinates":[[[[-100.167605,42.085848],[-100.198478,42.846102],[-99.677684,42.730903],[-99.662379,42.086009],[-99.686959,42.086075],[-100.167605,42.085848]]]]}, "properties" : {"geoid" : "31017975000", "state" : "31", "county" : "017", "tract" : "975000"}}]}

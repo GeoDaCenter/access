@@ -9,7 +9,8 @@ var cmap_z = [{"label" :  " < -2.5 &sigma;", "upper" : -2.5, "text" : "black", "
               {"label" : "1 &mdash; 1.5 &sigma;", "upper" : 1.5, "text" : "white", "fill" : '#51C468'},
               {"label" : "1.5 &mdash; 2 &sigma;", "upper" : 2, "text" : "black", "fill" : '#86D449'},
               {"label" :  "2 &mdash; 2.5 &sigma;", "upper" : 2.5, "text" : "black", "fill" : '#C2DF22'},
-              {"label" :  " > 2.5 &sigma;", "upper" : 3, "text" : "black", "fill" : '#FDE724'},];
+              {"label" :  " > 2.5 &sigma;", "upper" : 3, "text" : "black", "fill" : '#FDE724'},
+              {"label" :  "Out of range", "upper" : 5, "text" : "black", "fill" : '#ff0000'}];
 
 function getColor(d) {
   for (var vi in cmap_z) {

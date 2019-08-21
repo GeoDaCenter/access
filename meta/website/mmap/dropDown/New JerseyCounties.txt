@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Atlantic County">Atlantic County</option>' +
    '<option value="Bergen County">Bergen County</option>' +
    '<option value="Burlington County">Burlington County</option>' +

@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Alameda County">Alameda County</option>' +
    '<option value="Alpine County">Alpine County</option>' +
    '<option value="Amador County">Amador County</option>' +

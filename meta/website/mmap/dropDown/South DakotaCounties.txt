@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Aurora County">Aurora County</option>' +
    '<option value="Beadle County">Beadle County</option>' +
    '<option value="Bennett County">Bennett County</option>' +

@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Barbour County">Barbour County</option>' +
    '<option value="Berkeley County">Berkeley County</option>' +
    '<option value="Boone County">Boone County</option>' +

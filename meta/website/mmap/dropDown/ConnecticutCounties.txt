@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Fairfield County">Fairfield County</option>' +
    '<option value="Hartford County">Hartford County</option>' +
    '<option value="Litchfield County">Litchfield County</option>' +

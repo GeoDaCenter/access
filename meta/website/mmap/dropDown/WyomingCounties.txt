@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Albany County">Albany County</option>' +
    '<option value="Big Horn County">Big Horn County</option>' +
    '<option value="Campbell County">Campbell County</option>' +

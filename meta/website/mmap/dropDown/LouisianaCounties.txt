@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Acadia Parish">Acadia Parish</option>' +
    '<option value="Allen Parish">Allen Parish</option>' +
    '<option value="Ascension Parish">Ascension Parish</option>' +

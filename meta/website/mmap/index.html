@@ -243,7 +243,7 @@ function csv_to_array(payload) { //Turns csv into array
   var lines = payload.split("\n");
 
   st_array = [];
-  for (var deviations = -3; deviations <= 3; deviations += .5){
+  for (var deviations = 0; deviations <= 14; deviations ++){
     st_array.push([]);
   }
 
@@ -275,10 +275,12 @@ function csv_to_array(payload) { //Turns csv into array
         st_array[2*(awayFromMean + 3)].push(destination);
       }
       catch(err) {
+        st_array[14].push(destination)
       }
-      
+        
     }
   }
+
   return st_array;
 
 }
@@ -343,7 +345,7 @@ function style(feature) { //CHANGE THIS TO CHANGE SHADING
 
   this_geo = parseInt(feature.properties.geoid);
   
-  for (var deviations = -3; deviations <= 3; deviations += .5) { 
+  for (var deviations = -3; deviations <= 5; deviations += .5) { 
     if (costs[2*(deviations + 3)].indexOf(this_geo) != -1) {
       return {
         weight: 1,
@@ -482,9 +484,9 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
 
     title = '<h3 id="time_header">Spatial Access</h3>\n';
 
-    docsUploader = '<input type="file" id="supplyFile">' + 
-                    '<button class = "btn info" onclick="giveInfo();">More Info</button>' +
-                    '<label for="supplyFile"> Please upload the supply file.</label>';
+    docsUploader = '<p><b>Please upload the supply file:</b></p>'  +
+                    '<input type="file" id="supplyFile">' + 
+                    '<button class = "btn info" onclick="giveInfo();">More Info</button>';
 
     table = '<table id="legend_table">' + labels.join('') + '</table>'
 

@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Adair County">Adair County</option>' +
    '<option value="Adams County">Adams County</option>' +
    '<option value="Allamakee County">Allamakee County</option>' +

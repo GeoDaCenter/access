@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Bernalillo County">Bernalillo County</option>' +
    '<option value="Catron County">Catron County</option>' +
    '<option value="Chaves County">Chaves County</option>' +

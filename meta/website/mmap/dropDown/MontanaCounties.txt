@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Beaverhead County">Beaverhead County</option>' +
    '<option value="Big Horn County">Big Horn County</option>' +
    '<option value="Blaine County">Blaine County</option>' +

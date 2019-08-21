@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Anderson County">Anderson County</option>' +
    '<option value="Andrews County">Andrews County</option>' +
    '<option value="Angelina County">Angelina County</option>' +

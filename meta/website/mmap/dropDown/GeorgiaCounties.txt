@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Appling County">Appling County</option>' +
    '<option value="Atkinson County">Atkinson County</option>' +
    '<option value="Bacon County">Bacon County</option>' +

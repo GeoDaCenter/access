@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Hawaii County">Hawaii County</option>' +
    '<option value="Honolulu County">Honolulu County</option>' +
    '<option value="Kalawao County">Kalawao County</option>' +

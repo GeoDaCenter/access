@@ -1,5 +1,6 @@
 <form>
-<select class="dropdown-menu" id="countyDropDown">' +
+<select class="dropdown-menu" id="countyDropDown">' +\
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Abbeville County">Abbeville County</option>' +
    '<option value="Aiken County">Aiken County</option>' +
    '<option value="Allendale County">Allendale County</option>' +

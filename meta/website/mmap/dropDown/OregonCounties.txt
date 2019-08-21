@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Baker County">Baker County</option>' +
    '<option value="Benton County">Benton County</option>' +
    '<option value="Clackamas County">Clackamas County</option>' +

@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Ada County">Ada County</option>' +
    '<option value="Adams County">Adams County</option>' +
    '<option value="Bannock County">Bannock County</option>' +

@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Autauga County">Autauga County</option>' +
    '<option value="Baldwin County">Baldwin County</option>' +
    '<option value="Barbour County">Barbour County</option>' +

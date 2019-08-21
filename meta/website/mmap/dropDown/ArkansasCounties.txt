@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Arkansas County">Arkansas County</option>' +
    '<option value="Ashley County">Ashley County</option>' +
    '<option value="Baxter County">Baxter County</option>' +

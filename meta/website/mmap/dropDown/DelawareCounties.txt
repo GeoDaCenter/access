@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Kent County">Kent County</option>' +
    '<option value="New Castle County">New Castle County</option>' +
    '<option value="Sussex County">Sussex County</option>' +

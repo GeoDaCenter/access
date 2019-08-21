@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Belknap County">Belknap County</option>' +
    '<option value="Carroll County">Carroll County</option>' +
    '<option value="Cheshire County">Cheshire County</option>' +

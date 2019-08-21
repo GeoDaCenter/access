@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Adams County">Adams County</option>' +
    '<option value="Alcorn County">Alcorn County</option>' +
    '<option value="Amite County">Amite County</option>' +

@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Aitkin County">Aitkin County</option>' +
    '<option value="Anoka County">Anoka County</option>' +
    '<option value="Becker County">Becker County</option>' +

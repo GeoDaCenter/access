@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Aleutians East Borough">Aleutians East Borough</option>' +
    '<option value="Bristol Bay Borough">Bristol Bay Borough</option>' +
    '<option value="Denali Borough">Denali Borough</option>' +

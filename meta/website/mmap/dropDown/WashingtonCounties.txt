@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Adams County">Adams County</option>' +
    '<option value="Asotin County">Asotin County</option>' +
    '<option value="Benton County">Benton County</option>' +

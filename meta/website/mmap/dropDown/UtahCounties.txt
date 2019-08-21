@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Beaver County">Beaver County</option>' +
    '<option value="Box Elder County">Box Elder County</option>' +
    '<option value="Cache County">Cache County</option>' +

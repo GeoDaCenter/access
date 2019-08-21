@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Alachua County">Alachua County</option>' +
    '<option value="Baker County">Baker County</option>' +
    '<option value="Bay County">Bay County</option>' +

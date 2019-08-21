@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Androscoggin County">Androscoggin County</option>' +
    '<option value="Aroostook County">Aroostook County</option>' +
    '<option value="Cumberland County">Cumberland County</option>' +

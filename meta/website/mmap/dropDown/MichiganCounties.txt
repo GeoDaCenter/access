@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Alcona County">Alcona County</option>' +
    '<option value="Alger County">Alger County</option>' +
    '<option value="Allegan County">Allegan County</option>' +

@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Addison County">Addison County</option>' +
    '<option value="Bennington County">Bennington County</option>' +
    '<option value="Caledonia County">Caledonia County</option>' +

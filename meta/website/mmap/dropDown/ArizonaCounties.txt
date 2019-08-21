@@ -1,5 +1,6 @@
 <form>
 <select class="dropdown-menu" id="countyDropDown">' +
+   '<option value="All Counties">All Counties</option>' +
    '<option value="Apache County">Apache County</option>' +
    '<option value="Cochise County">Cochise County</option>' +
    '<option value="Coconino County">Coconino County</option>' +

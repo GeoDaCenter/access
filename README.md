@@ -7,4 +7,6 @@ ShardToCounties contains a notebook which turns the complete times file into ind
 
 Simplify Counties contains the files to simplify county geometries and turn them into geojson.
 
-Website contains all the files for the websit.
+Website contains all the files for the website. dropDown contains the txt file for the dropdown menu.
+index.html is the main page for the website. loading.gif and loading1.gif are the two loading pages.
+co_maps contains some of the geojson files for counties.

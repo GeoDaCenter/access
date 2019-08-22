@@ -11,6 +11,8 @@ Then click actions > enable cors. Then confirm that. Click action > deploy. Once
 In the wrapper function the invoke should be changed to reflect the name of your main lambda function.
 In the main lambda function the names of the S3 bucket you are using. In your s3 bucket include this as a 
 cors policy:
+
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
 <CORSRule>
@@ -23,8 +25,10 @@ cors policy:
     <AllowedHeader>*</AllowedHeader>
 </CORSRule>
 </CORSConfiguration>
+```
 
 s3 policy:
+```
 {
     "Version": "2008-10-17",
     "Statement": [
@@ -39,10 +43,11 @@ s3 policy:
         }
     ]
 }
+```
 
-ShardToCounties contains a notebook which turns the complete times file into indiviual times files by counties.
+* ShardToCounties contains a notebook which turns the complete times file into indiviual times files by counties.
 
-Simplify Counties contains the files to simplify county geometries and turn them into geojson.
+* Simplify Counties contains the files to simplify county geometries and turn them into geojson.
 
 Website contains all the files for the website. dropDown contains the txt file for the dropdown menu.
 index.html is the main page for the website. loading.gif and loading1.gif are the two loading pages.

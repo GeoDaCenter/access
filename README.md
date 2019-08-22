@@ -24,6 +24,22 @@ cors policy:
 </CORSRule>
 </CORSConfiguration>
 
+s3 policy:
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::tractaccessinfo/*"
+        }
+    ]
+}
+
 ShardToCounties contains a notebook which turns the complete times file into indiviual times files by counties.
 
 Simplify Counties contains the files to simplify county geometries and turn them into geojson.

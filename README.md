@@ -31,3 +31,5 @@ Simplify Counties contains the files to simplify county geometries and turn them
 Website contains all the files for the website. dropDown contains the txt file for the dropdown menu.
 index.html is the main page for the website. loading.gif and loading1.gif are the two loading pages.
 co_maps contains some of the geojson files for counties.
+
+FIPSdata contains json files which contain fips codes for counties and cities.

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+cd lambdadata
+
+git clone https://github.com/JamesSaxon/access.git
+
 pip install -t . pandas
 
 rm -r *.dist-info __pycache__

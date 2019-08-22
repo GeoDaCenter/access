@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <head>    
 
-    <link rel="icon" type="image/png" href="fav/16.png" sizes="16x16"><!--FROM SITE NUN-->
-    <link rel="icon" type="image/png" href="fav/32.png" sizes="32x32"><!--FROM SITE NUN-->
-    <link rel="icon" type="image/png" href="fav/96.png" sizes="96x96"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="16.png" sizes="16x16"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="32.png" sizes="32x32"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="96.png" sizes="96x96"><!--FROM SITE NUN-->
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script>L_PREFER_CANVAS = false; L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
@@ -231,7 +231,8 @@ function getDataFromCSV() {
         }
       }
       fileLoc = lambda_request(lambdaIn);
-      checkIfReady(fileLoc)
+      console.log(fileLoc)
+      checkIfReady(fileLoc);
     }
   }
   r.readAsText(supplyFile.files[0]);
@@ -401,7 +402,7 @@ function lambda_request(supplyData){ // SENDS DATA TO LAMBDA FOR PROCESSING
   } else{
     location = locMenu.options[locMenu.selectedIndex].text;
   }
-  var params = JSON.stringify({tract : supplyData, method: method, location: location, state: state});
+  var params = JSON.stringify({tract : supplyData, method: method, location: location, state: state}); //{'tract': {17:0, }
   var s3Link = ""
   $.ajax({ 
     url: 'https://pgaln064og.execute-api.us-east-2.amazonaws.com/default/accessWrapper',
@@ -410,7 +411,8 @@ function lambda_request(supplyData){ // SENDS DATA TO LAMBDA FOR PROCESSING
     dataType: 'json', 
     async: false, 
     success: function(output) {
-      s3Link = output;
+      
+      s3Link = output['body'].replace('"','').slice(0, -1);
       if (method == 'FCA') {
         FCAfile = s3Link;
       }

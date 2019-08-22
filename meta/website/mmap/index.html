@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <head>    
 
-    <link rel="icon" type="image/png" href="/site/fav/16.png" sizes="16x16"><!--FROM SITE NUN-->
-    <link rel="icon" type="image/png" href="/site/fav/32.png" sizes="32x32"><!--FROM SITE NUN-->
-    <link rel="icon" type="image/png" href="/site/fav/96.png" sizes="96x96"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="16.png" sizes="16x16"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="32.png" sizes="32x32"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="96.png" sizes="96x96"><!--FROM SITE NUN-->
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script>L_PREFER_CANVAS = false; L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
@@ -454,7 +454,6 @@ function build_map(link) { //Builds geographies
   });
 
 }
-//build_map('/site/fav/2f817424d4dc4b1fbf8c7b972b09136c.csv');
 function readTextFile(file) //FUNCTION USED TO RECIEVE DROP DOWN BAR DATA
 {
   xmlhttp=new XMLHttpRequest();
@@ -530,7 +529,7 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
 
     picture = '<img src="" id="loading">'
 
-    download = '<p class="pcenter"><a id="dl_link" name="dl_link" style="color:#777;"href="/site/fav/2f817424d4dc4b1fbf8c7b972b09136c.csv" download="isochrone.csv">⬇ Get Data</a></p>';
+    download = '<p class="pcenter"><a id="dl_link" name="dl_link" style="color:#777;"href="" download="isochrone.csv">⬇ Get Data</a></p>';
 
     div.innerHTML = title + '<hr>'  + table + '<hr>' + radio2 + '<hr>' + radio3 + '<hr>' + states + counties + '<hr>' + docsUploader + '<hr>'+ submit + '<hr>' + download + picture;
     

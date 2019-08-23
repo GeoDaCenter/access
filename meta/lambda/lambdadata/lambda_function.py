@@ -70,7 +70,7 @@ def lambda_handler(event, context):
         
 
     else:
-        cityFips = s3.Object(bucketName, 'FIPSdata/cityCodes.JSON')
+        cityFips = s3.Object(bucketName, 'FIPSdata/cityCodes.json')
         cityCodes = json.load(cityFips.get()['Body'])
         tracts = cityCodes[location]
 

@@ -63,6 +63,13 @@ def lambda_handler(event, context):
             pdtracts = pdtracts[pdtracts//1000000 == int(locationCode)]
             tracts = list(pdtracts)
 
+            print(type(pdtracts))
+            print(type(pdtracts[21099]))
+            print(len(pdtracts))
+            print(type(tracts))
+            print(type(tracts[0]))
+            print(len(tracts))
+
         else:
             pdtracts = pdtracts[pdtracts//1000000000 == int(stateCode)]
             tracts = list(pdtracts)
@@ -70,9 +77,10 @@ def lambda_handler(event, context):
         
 
     else:
-        cityFips = s3.Object(bucketName, 'FIPSdata/cityCodes.json')
+        cityFips = s3.Object(bucketName, 'FIPSdata/cityCodes.JSON')
         cityCodes = json.load(cityFips.get()['Body'])
         tracts = cityCodes[location]
+
 
         extension ='PopulationData/UsPops.csv'
         popFile = s3.Object(bucketName, extension)
@@ -80,7 +88,13 @@ def lambda_handler(event, context):
         pdtracts = pops.geoid
 
         pdtracts = pdtracts[pdtracts.isin(tracts)]
-        print(pdtracts)
+        
+        print(type(pdtracts))
+        print(type(pdtracts[21099]))
+        print(len(pdtracts))
+        print(type(tracts))
+        print(type(tracts[0]))
+        print(len(tracts))
 
 
     pops.drop(pops.loc[~pops.geoid.isin(tracts)].index, inplace = True)

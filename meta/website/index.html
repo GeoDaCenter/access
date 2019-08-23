@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <head>    
 
-    <link rel="icon" type="image/png" href="fav/16.png" sizes="16x16"><!--FROM SITE NUN-->
-    <link rel="icon" type="image/png" href="fav/32.png" sizes="32x32"><!--FROM SITE NUN-->
-    <link rel="icon" type="image/png" href="fav/96.png" sizes="96x96"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="16.png" sizes="16x16"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="32.png" sizes="32x32"><!--FROM SITE NUN-->
+    <link rel="icon" type="image/png" href="96.png" sizes="96x96"><!--FROM SITE NUN-->
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script>L_PREFER_CANVAS = false; L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
@@ -132,7 +132,8 @@ function checkIfReady(link){
 }
 
 previousFile = '';
-changed = false;
+var changed = false;
+var otherChanged = false;
 function findAllSubmissions() {
   fileName = '';
   try {
@@ -145,8 +146,11 @@ function findAllSubmissions() {
       SSSFCAfile = '';
       RAAMfile = '';
     }
-    else {
+    else if (otherChanged == false) {
       changed = false;
+    }
+    else{
+      otherChanged = false;
     }
   }
   catch {
@@ -178,6 +182,7 @@ function updateMap(method){
     }
     else {
       build_map(FCAfile);
+      document.getElementById("dl_link").href = FCAfile; 
     }
   }
   else if (method == '2SFCA'){
@@ -186,6 +191,7 @@ function updateMap(method){
     }
     else {
       build_map(SSFCAfile);
+      document.getElementById("dl_link").href = SSFCAfile; 
     }
   }
   else if (method == '3SFCA'){
@@ -194,6 +200,7 @@ function updateMap(method){
     }
     else {
       build_map(SSSFCAfile);
+      document.getElementById("dl_link").href = SSSFCAfile; 
     }
   }
   else {
@@ -202,6 +209,7 @@ function updateMap(method){
     }
     else {
       build_map(RAAMfile);
+      document.getElementById("dl_link").href = RAAMfile; 
     }
   }
 }
@@ -231,7 +239,6 @@ function getDataFromCSV() {
         }
       }
       fileLoc = lambda_request(lambdaIn);
-      console.log(fileLoc)
       checkIfReady(fileLoc);
     }
   }
@@ -262,14 +269,15 @@ function csv_to_array(payload) { //Turns csv into array
 
   for (var li = 1; li < lines.length; li++){
     var currentline = lines[li].split(",");
-    
     if (currentline.length == 2){ 
       var destination = parseInt(currentline[0]);
       var access = parseFloat(currentline[1]);
       if(st != 0){
         var awayFromMean = parseInt(2*(access-mean)/st)/2;
+        
       }else{
         var awayFromMean = 0;
+        
       }
       
       try {
@@ -280,7 +288,7 @@ function csv_to_array(payload) { //Turns csv into array
       }
         
     }
-  }
+  } 
 
   return st_array;
 
@@ -294,7 +302,6 @@ function cost_array_to_dict(a) { //Turn previous array into dictionary
       dict[tract] = parseInt(cost/2 - 3);
     }); 
   }
-
   return dict;
 
 }
@@ -345,8 +352,7 @@ function onEachFeature(feature, layer) { //CONTROLS COLOR OF HOVERED LOCATION
 function style(feature) { //CHANGE THIS TO CHANGE SHADING
 
   this_geo = parseInt(feature.properties.geoid);
-  
-  for (var deviations = -3; deviations <= 5; deviations += .5) { 
+  for (var deviations = -3; deviations <= 5; deviations += .5) {
     if (costs[2*(deviations + 3)].indexOf(this_geo) != -1) {
       return {
         weight: 1,
@@ -358,7 +364,7 @@ function style(feature) { //CHANGE THIS TO CHANGE SHADING
     }
   }
 
-  return { opacity: 0, fillOpacity: 0 };
+  return {weight: 1,opacity: 0.6,color: '#ff0000',fillOpacity: 0.5,fillColor: '#ff0000'};
 
 }
 
@@ -393,7 +399,6 @@ function lambda_request(supplyData){ // SENDS DATA TO LAMBDA FOR PROCESSING
   var location = '';
   var county = document.getElementById("county_button");
   var city = document.getElementById("city_button");
-  var locMenu = document.getElementById("dropDown");
   var locMenu = document.getElementById("dropDown");
   if (county.checked){
     var countyDropDown = document.getElementById("countyDropDown")
@@ -450,7 +455,6 @@ function build_map(link) { //Builds geographies
           } 
         }); 
       }
-
       refresh_counties(counties); // ONLY HAS TO DO WITH GEO
     }
   });
@@ -469,6 +473,7 @@ function giveInfo(){
   alert("Please upload a csv file with two columns. The columns should have the words 'geoid' and 'supply' as headers. The geoids should be 10 or 11 digit tracts and the supply columns should have the amount of resources in its tract.")
 }
 var legend = L.control({position: 'topright'});
+
 
 
 function generateLegend(fileName, countyChecked = false, cityChecked = false, state = "empty.txt", statePos = "0", savedFile, curMethod = "0"){
@@ -501,6 +506,13 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
                 '</select>' +
                 '<br><br>' +
               '</form>';
+
+    newradio2 = '<form name="newmethod" id="newmethod">' +
+                  '<label><input type="radio" name="methodRadios" id="FCA" value="FCA" checked="checked"/>FCA</label>' +
+                  '<label><input type="radio" name="methodRadios" id="2SFCA" value="2SFCA"/>2SFCA</label>' +
+                  '<label><input type="radio" name="methodRadios" id="3SFCA" value="3SFCA"/>3SFCA</label>' +
+                  '<label><input type="radio" name="methodRadios" id="RAAM" value="RAAM"/>RAAM</label>' +
+                  '</form>';
     if (countyChecked == true){
       radio3 = '<form name="geotype">' +
             '  <label><input type="radio" name="myRadios" id="county_button" value="County" checked="checked"/> County</label>' +
@@ -531,7 +543,7 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
 
     picture = '<img src="" id="loading">'
 
-    download = '<p class="pcenter"><a id="dl_link" name="dl_link" style="color:#777;"href="" download="isochrone.csv">⬇ Get Data</a></p>';
+    download = '<p class="pcenter"><a id="dl_link" name="dl_link" style="color:#777; download="">⬇ Get Data</a></p>';
 
     div.innerHTML = title + '<hr>'  + table + '<hr>' + radio2 + '<hr>' + radio3 + '<hr>' + states + counties + '<hr>' + docsUploader + '<hr>'+ submit + '<hr>' + download + picture;
     
@@ -539,6 +551,9 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
   };
 
   legend.addTo(map);
+
+
+
   var county = document.getElementById("county_button");
   var city = document.getElementById("city_button");
   var locMenu = document.getElementById("dropDown");
@@ -550,13 +565,27 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
   var method = document.getElementById("method");
   method.selectedIndex = curMethod;
   
+  var newmethod = document.getElementById("newmethod");
+  try{
+    var countyMenu = document.getElementById("countyDropDown");
+    countyMenu.onchange = function() {
+      otherChanged = true;
+    }
+  }
+  catch {
+
+  }
+
   locMenu.onchange = function(){
+    otherChanged = true;
     if (county.checked){
       var dropLoc = locMenu.options[locMenu.selectedIndex].text
       generateLegend("state.txt",true,false,dropLoc + 'Counties.txt', locMenu.selectedIndex, supplyFile.files, method.selectedIndex)
+      
     }
   }
   method.onchange = function(){
+
     try {
       fileName = supplyFile.files[0].name;
       currentMethod = method.options[method.selectedIndex].text;
@@ -575,7 +604,7 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
       }
 
 
-      if (previousFile == fileName && myFile != ''){
+      if (previousFile == fileName && myFile != '' && otherChanged == false){
         updateMap(currentMethod);
       }
     }
@@ -585,29 +614,27 @@ function generateLegend(fileName, countyChecked = false, cityChecked = false, st
 
   }
   county.addEventListener("click", function(e) {
+    otherChanged = true;
     generateLegend("state.txt", true, false, 'IllinoisCounties.txt',"12", supplyFile.files, method.selectedIndex); 
   });
   city.addEventListener("click", function(e) {
+    otherChanged = true;
     generateLegend("cities.txt",  false, true, 'empty.txt',"0", supplyFile.files, method.selectedIndex); 
+  });
+  legend.getContainer().addEventListener('mouseover', function () {
+    map.dragging.disable();
+    on_control = true;
+  });
+
+  // Re-enable dragging when user's cursor leaves the element
+  legend.getContainer().addEventListener('mouseout', function () {
+      map.dragging.enable();
+      on_control = false;
   });
 
 }
 
 generateLegend("starter.txt", false, false, "empty.txt","0");
-
-
-
-legend.getContainer().addEventListener('mouseover', function () {
-    map.dragging.disable();
-    on_control = true;
-});
-
-// Re-enable dragging when user's cursor leaves the element
-legend.getContainer().addEventListener('mouseout', function () {
-    map.dragging.enable();
-    on_control = false;
-});
-
 
 </script>
 

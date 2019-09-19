@@ -4,7 +4,15 @@
 Spatial Access for PySAL
 ========================
 
-We are building this pysal package to calculate spatial accessibility from existing travel time matrices
+We are building this pysal package to calculate spatial accessibility from existing travel time matrices.
+
+We have implemented traditional measures:
+
+- FCAs (Huff 1963, :cite:`1963_huff_shopping_trade_areas`) along with others.
+- 2SFCA (Luo and Wang, 2002, :cite:`2002_luo_spatial_accessibility_chicago`), 
+- E2SFCA (Luo and Qi 2009, :cite:`2009_luo_qi_E2SFCA`),
+- 3SFCA (Wan, Zou, and Sternberg, 2012, :cite:`2012_wan_3SFCA`), and our 
+- Rational Agent Access Model (Saxon and Snow 2019, :cite:`2019_saxon_snow_raam`), 
 
 .. image:: _static/images/full_us.jpg
    :width: 100%

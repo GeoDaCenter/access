@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
-import geopandas as gpd
+try:
+    import geopandas as gpd
+except:
+    pass
 from .fca1 import weighted_catchment
 from ..weights.weights import step_fn
 
@@ -54,21 +57,16 @@ def two_stage_fca(demand_df, supply_df, cost_df, max_cost,
     -------
     access     : pandas.Series
                  A -- potentially-weighted -- two-stage access ratio.
-    """
-  
-    #if weight_fn is None:
-    #    d = {10 : 1, 20 : 0.68, 30 : 0.22}
-    #    weight_fn = step_fn(d)
-        
+    """    
     #get a series of total demand then calculate the supply to total demand ratio for each location
     total_demand_series = weighted_catchment(demand_df, cost_df, max_cost, 
                                           cost_source = cost_origin, cost_dest = cost_dest, cost_cost = cost_name,
                                           loc_loc = demand_index, loc_value = demand_name, 
                                           weight_fn = weight_fn)
-    
+
     #create a temporary dataframe, temp, that holds the supply and aggregate demand at each location
     temp = supply_df.join(total_demand_series, how = 'right')
-    
+   
     #there may be NA values due to a shorter supply dataframe than the demand dataframe. 
     #in this case, replace any potential NA values(which correspond to supply locations with no supply) with 0.
     temp.fillna(0, inplace = True)
@@ -78,24 +76,12 @@ def two_stage_fca(demand_df, supply_df, cost_df, max_cost,
     
     #separate the fractional ratio of supply to aggregate demand at each location, or Rl, into a new dataframe
     supply_to_total_demand_frame = pd.DataFrame(data = {'Rl':temp['Rl']})
-    supply_to_total_demand_frame.reset_index(level = 0, inplace = True)
-    
-    #rename the location column to supply_index for clarity for the next weighted_catchment call
-    supply_to_total_demand_frame.rename({cost_dest: supply_index, 'Rl': 'Rl'}, axis='columns', inplace = True)
+    supply_to_total_demand_frame.index.name = 'geoid'
     
     #sum, into a series, the supply to total demand ratios for each location
     two_stage_fca_series = weighted_catchment(supply_to_total_demand_frame, cost_df, max_cost, 
                                           cost_source = cost_dest, cost_dest = cost_origin, cost_cost = cost_name,
-                                          loc_loc = supply_index, loc_value = "Rl", 
+                                          loc_loc = 'geoid', loc_value = "Rl", 
                                           weight_fn = weight_fn)
     
-    #normalize the access values 
-    if normalize:
-        normalize_df = demand_df.join(two_stage_fca_series.to_frame(), how = 'right')
-        mean_access = (normalize_df['Rl'] * normalize_df[demand_name]).sum() / normalize_df[demand_name].sum()
-        two_stage_fca_series = normalize_df['Rl'] / mean_access
-    
     return two_stage_fca_series
-
-
-

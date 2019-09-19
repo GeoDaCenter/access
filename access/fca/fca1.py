@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
-import geopandas as gpd
+try:
+    import geopandas as gpd
+except:
+    pass
 import warnings
 
 def weighted_catchment(loc_df, cost_df, max_cost, cost_source = "origin", cost_dest = "dest", cost_cost = "cost", 
@@ -57,10 +60,9 @@ def weighted_catchment(loc_df, cost_df, max_cost, cost_source = "origin", cost_d
             new_loc_value_column = temp[loc_value]*temp.W3*temp.G
             temp = temp.drop([loc_value], axis = 1)
             temp[loc_value] = new_loc_value_column
-    
-    #constrain by max cost as a safety check
+    #constrain by max cost 
     temp = temp[temp[cost_cost] < max_cost]
-    
+   
     #return either the count or the summation of the values of the desired weighted catchment
     if loc_value is None:
         return temp.groupby([cost_dest])[cost_source].count()
@@ -151,11 +153,5 @@ def fca_ratio(demand_df, supply_df, demand_cost_df, supply_cost_df, max_cost,
     if noise != 'quiet':
         #depending on the version history of the census tract data you use, this will print out the tracts that have undefined FCA values
         print (base_FCA_series[pd.isna(base_FCA_series)])
-    
-    #normalize the access values 
-    if normalize:
-        normalize_df = demand_df.join(base_fca_series.to_frame(), how = 'right')
-        mean_access = (normalize_df['FCA'] * normalize_df[demand_name]).sum() / normalize_df[demand_name].sum()
-        base_fca_series = normalize_df['FCA'] / mean_access
 
     return base_FCA_series

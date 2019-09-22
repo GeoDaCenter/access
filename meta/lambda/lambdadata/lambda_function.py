@@ -6,16 +6,6 @@ from access.access import *
 s3 = boto3.resource('s3')
 bucketName = 'tract-access-csds'
 
-def raamPrep(pops, docs):
-    pops.demand = pd.to_numeric(pops.demand)
-    return pops, docs
-
-
-def FCAPrep(docs, pops):
-    docs = docs[docs['supply'] != 0]
-    docs.set_index('geoid', inplace = True)
-    pops.set_index('geoid', inplace = True)
-    return docs, pops
 
 def saveToS3(df, name, bucketName, useIndex = False):
     key = 'inputData/' + name + '.csv' 
@@ -147,18 +137,19 @@ def lambda_handler(event, context):
     additionalSelfTimes = pd.DataFrame({'origin': validOrigins, 'dest': validOrigins, 'cost': [0] * len(validOrigins)})
     travel = pd.concat([travel, additionalSelfTimes], ignore_index = True, sort=True)
 
-    if method != 'RAAM':
-        docs, pops = FCAPrep(docs, pops)
-    else:
-        pops, docs = raamPrep(pops, docs)
+
+    pops.demand = pd.to_numeric(pops.demand)
+    docs = docs[docs['supply'] != 0]
+    docs.set_index('geoid', inplace = True)
+    pops.set_index('geoid', inplace = True)
 
     
     print(travel.head())
     print(docs.head())
     print(pops.head())
     saveToS3(travel, 'ttime', bucketName)
-    saveToS3(docs, 'docs', bucketName, True)
-    saveToS3(pops, 'pops', bucketName, True)
+    saveToS3(docs,   'docs',  bucketName, True)
+    saveToS3(pops,   'pops',  bucketName, True)
 
     tester = access(demand_df = pops, demand_value = 'demand', 
                     supply_df = docs, supply_value = 'supply',
@@ -168,17 +159,15 @@ def lambda_handler(event, context):
                     neighbor_cost_dest = 'origin', neighbor_cost_name = 'cost')
     
     if method == 'FCA':
-        data = tester.fca_ratio(max_cost = 60)
+        data = tester.fca_ratio(max_cost = 60, normalize = True)
     elif method == '2SFCA':
-        data = tester.two_stage_fca(max_cost = 60)
-    #elif method == 'E2SFCA':
-    #    data = tester.enhanced_two_stage_fca(max_cost = 60, normalize = True)
+        data = tester.two_stage_fca(max_cost = 60, normalize = True)
+    elif method == 'E2SFCA':
+        data = tester.enhanced_two_stage_fca(max_cost = 60, normalize = True)
     elif method == '3SFCA':
-        data = tester.three_stage_fca(max_cost = 60)
+        data = tester.three_stage_fca(max_cost = 60, normalize = True)
     else:
-        data = tester.raam()
-        data.columns = ['tracts','RAAM']
-        data.set_index('tracts', inplace = True)
+        data = tester.raam(tau = 60, verbose = True)
 
     
     print(data.head())

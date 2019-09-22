@@ -4,7 +4,7 @@ import boto3, json
 from access.access import *
 
 s3 = boto3.resource('s3')
-bucketName = 'tractaccessinfo'
+bucketName = 'tract-access-csds'
 
 def raamPrep(pops, docs):
     pops.demand = pd.to_numeric(pops.demand)
@@ -70,7 +70,7 @@ def lambda_handler(event, context):
         
 
     else:
-        cityFips = s3.Object(bucketName, 'FIPSdata/cityCodes.JSON')
+        cityFips = s3.Object(bucketName, 'FIPSdata/cityCodes.json')
         cityCodes = json.load(cityFips.get()['Body'])
         tracts = cityCodes[location]
 
@@ -172,7 +172,7 @@ def lambda_handler(event, context):
     s3Objs = []
     key = 'tempAccessData/' + uuid + '.csv'
     s3.Object(bucketName, key).put(Body = data.to_csv(index = True))
-    s3Objs.append('https://' + bucketName + '.s3.us-east-2.amazonaws.com/' + key)
+    s3Objs.append('https://' + bucketName + '.s3.us-east-1.amazonaws.com/' + key)
     return {
         'statusCode': 200,
         'body': json.dumps(str(s3Objs))

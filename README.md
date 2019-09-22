@@ -4,6 +4,7 @@ Lambda folder contains createLambdaZip bash file which makes the zip file with p
 The script needs pip to work.
 
 * Create a lambda function with a role that has basic lambda permissions.
+  * Make sure you are on the same site as the data, and where you have created past functions (N Virginia).
 * Upload the zip made with the bash script. 
 * Make a second lambda function with the same role and copy the contents of `wrapperfn.py` in there. 
 * Add an api gateway as a trigger to this lambda function. 

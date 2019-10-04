@@ -10,7 +10,8 @@ def lambda_handler(event, context):
     except:
         data['tract'] = event['tract']
         data['method'] = event['method']
-        data['location'] = event['location']
+        data['city'] = event['city']
+        data['county'] = event['county']
         data['state'] = event['state']
         
     data['id'] = uid

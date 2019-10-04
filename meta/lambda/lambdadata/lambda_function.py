@@ -15,108 +15,82 @@ def saveToS3(df, name, bucketName, useIndex = False):
         s3.Object(bucketName, key).put(Body = df.to_csv(index = False))
 
 def lambda_handler(event, context):
+
     #Parse recieved data
+
     print("Recieved data", event)
     print(type(event))
-    try:
-        params = json.loads(event['body'])
-        data = params['tract']
-        uuid = params['id']
-        method = params['method']
-        location = params['location']
-        state = params['state']
-    except:
-        data = event['tract']
-        uuid = event['id']
-        method = event['method']
-        location = event['location']
-        state = event['state']
+
+    data   = event['tract']
+    uuid   = event['id']
+    method = event['method']
+    state  = event['state']
+    county = event['county']
+    city   = event['city']
 
 
-    if state != '':
-        stateFips = s3.Object(bucketName, 'FIPSdata/stateCodes.json')
-        stateCodes = json.load(stateFips.get()['Body'])
-        stateCode = stateCodes[state]
+    # Get the populations from S3
+    extension ='PopulationData/UsPops.csv'
+    popFile = s3.Object(bucketName, extension)
+    pops = pd.read_csv(popFile.get()['Body'])
+    pops.columns = ['geoid', 'demand']
+    pops.demand = pops.demand.astype(int)
+    pops.set_index('geoid', inplace = True)
 
-         #Get population data
-        extension ='PopulationData/UsPops.csv'
-        popFile = s3.Object(bucketName, extension)
-        pops = pd.read_csv(popFile.get()['Body'])
-        pdtracts = pops.geoid
+    ## Now get doctors from the post request.
+    docs = pd.DataFrame({'geoid'  : list(data.keys()), 
+                         'supply' : list(data.values())})
+    print("input data")
+    print(list(data.values()))
+    print(docs)
+    docs.geoid  = docs.geoid. astype(int)
+    docs.supply = docs.supply.astype(int)
+    print(docs)
+    docs = docs[docs['supply'] != 0]
+    docs.set_index('geoid', inplace = True)
+    print(docs)
 
-        if location != 'All Counties':
 
-            countyFips = s3.Object(bucketName, 'FIPSdata/countyCodes.json')
-            countyCodes = json.load(countyFips.get()['Body'])
-            locationCode = stateCode + countyCodes[stateCode][location]
+    all_tracts = pd.Series(sorted(list(set(pops.index) | set(docs.index))))
 
-            pdtracts = pdtracts[pdtracts//1000000 == int(locationCode)]
-            tracts = list(pdtracts)
+    if city != '':
 
-            print(type(pdtracts))
-            print(type(pdtracts[21099]))
-            print(len(pdtracts))
-            print(type(tracts))
-            print(type(tracts[0]))
-            print(len(tracts))
-
-        else:
-            pdtracts = pdtracts[pdtracts//1000000000 == int(stateCode)]
-            tracts = list(pdtracts)
-
-        
-
-    else:
+        print(city)
         cityFips = s3.Object(bucketName, 'FIPSdata/cityCodes.json')
         cityCodes = json.load(cityFips.get()['Body'])
-        tracts = cityCodes[location]
+        tracts = cityCodes[city]
+
+    elif county != '':
+
+        print(county)
+        all_tracts = all_tracts[all_tracts // 1000000 == int(county)]
+        tracts = list(all_tracts)
+
+    else:
+
+        print(state)
+        all_tracts = all_tracts[all_tracts // 1000000000 == int(state)]
+        tracts = list(all_tracts)
 
 
-        extension ='PopulationData/UsPops.csv'
-        popFile = s3.Object(bucketName, extension)
-        pops = pd.read_csv(popFile.get()['Body'])
-        pdtracts = pops.geoid
+    print("DOCS :::")
+    print(docs.head())
 
-        pdtracts = pdtracts[pdtracts.isin(tracts)]
         
-        print(type(pdtracts))
-        print(type(pdtracts[21099]))
-        print(len(pdtracts))
-        print(type(tracts))
-        print(type(tracts[0]))
-        print(len(tracts))
+    print("TRACTS :::")
+    print(tracts)
+    pops.drop(pops.loc[~pops.index.isin(tracts)].index, inplace = True)
+    docs.drop(docs.loc[~docs.index.isin(tracts)].index, inplace = True)
 
 
-    pops.drop(pops.loc[~pops.geoid.isin(tracts)].index, inplace = True)
-    pops.columns = ['geoid', 'demand']
-
-
-    destTracts = list(data.keys())
-    vals = list(data.values())
-    vals = np.array(vals)
-
-    docs = pd.DataFrame({'geoid':destTracts, 'supply':vals})
-    missingTracts = list(pdtracts[~pdtracts.isin(docs.geoid)])
-    missing = pd.DataFrame({'geoid':missingTracts, 'supply':[0]* len(missingTracts)})
-    docs = docs.append(missing)
-    docs.supply = pd.to_numeric(docs.supply)
-    docs.geoid = pd.to_numeric(docs.geoid)
-    docs.drop(docs.loc[~docs.geoid.isin(tracts)].index, inplace = True)
+    print("DOCS :::")
     print(docs.head())
 
     all = []
     travel = pd.DataFrame()
 
     #Getting list of counties
-    counties = []
-    for tract in tracts:
-        tract = str(tract)
-        if len(tract) == 10:
-            tract = '0' + tract
-        
-        counties.append(tract[0:5])
-    counties = list(set(counties))
-
+    counties = set((pops.index // 1000000).astype(str).str.zfill(5))
     for county in counties:
 
         extension = 'times/pgr/' + county[0:2] + '/' + county[2:5] + '.csv'
@@ -132,16 +106,11 @@ def lambda_handler(event, context):
 
 
     travel.columns = ['cost', 'dest', 'origin']
-    travel.dest = pd.to_numeric(travel.dest)
-    validOrigins = list(pops.geoid)
+    # travel.dest = pd.to_numeric(travel.dest)
+
+    validOrigins = list(pops.index)
     additionalSelfTimes = pd.DataFrame({'origin': validOrigins, 'dest': validOrigins, 'cost': [0] * len(validOrigins)})
     travel = pd.concat([travel, additionalSelfTimes], ignore_index = True, sort=True)
-
-
-    pops.demand = pd.to_numeric(pops.demand)
-    docs = docs[docs['supply'] != 0]
-    docs.set_index('geoid', inplace = True)
-    pops.set_index('geoid', inplace = True)
 
     
     print(travel.head())

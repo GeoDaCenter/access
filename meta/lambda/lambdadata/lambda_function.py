@@ -27,6 +27,7 @@ def lambda_handler(event, context):
     state  = event['state']
     county = event['county']
     city   = event['city']
+    time_scale = int(event['time'])
 
 
     # Get the populations from S3
@@ -40,15 +41,15 @@ def lambda_handler(event, context):
     ## Now get doctors from the post request.
     docs = pd.DataFrame({'geoid'  : list(data.keys()), 
                          'supply' : list(data.values())})
-    print("input data")
-    print(list(data.values()))
-    print(docs)
+    # print("input data")
+    # print(list(data.values()))
+    # print(docs)
     docs.geoid  = docs.geoid. astype(int)
     docs.supply = docs.supply.astype(int)
-    print(docs)
+    # print(docs)
     docs = docs[docs['supply'] != 0]
     docs.set_index('geoid', inplace = True)
-    print(docs)
+    # print(docs)
 
 
     all_tracts = pd.Series(sorted(list(set(pops.index) | set(docs.index))))
@@ -73,18 +74,18 @@ def lambda_handler(event, context):
         tracts = list(all_tracts)
 
 
-    print("DOCS :::")
-    print(docs.head())
+    # print("DOCS :::")
+    # print(docs.head())
 
         
-    print("TRACTS :::")
-    print(tracts)
+    # print("TRACTS :::")
+    # print(tracts)
     pops.drop(pops.loc[~pops.index.isin(tracts)].index, inplace = True)
     docs.drop(docs.loc[~docs.index.isin(tracts)].index, inplace = True)
 
 
-    print("DOCS :::")
-    print(docs.head())
+    # print("DOCS :::")
+    # print(docs.head())
 
     all = []
     travel = pd.DataFrame()
@@ -113,9 +114,9 @@ def lambda_handler(event, context):
     travel = pd.concat([travel, additionalSelfTimes], ignore_index = True, sort=True)
 
     
-    print(travel.head())
-    print(docs.head())
-    print(pops.head())
+    # print(travel.head())
+    # print(docs.head())
+    # print(pops.head())
     saveToS3(travel, 'ttime', bucketName)
     saveToS3(docs,   'docs',  bucketName, True)
     saveToS3(pops,   'pops',  bucketName, True)
@@ -127,19 +128,26 @@ def lambda_handler(event, context):
                     neighbor_cost_df = travel, neighbor_cost_origin = 'dest', 
                     neighbor_cost_dest = 'origin', neighbor_cost_name = 'cost')
     
-    if method == 'FCA':
-        data = tester.fca_ratio(max_cost = 60, normalize = True)
+    if   method == 'FCA':
+        data = tester.fca_ratio(max_cost = time_scale, normalize = True)
+    elif method == "Catch":
+        tri = weights.step_fn({(i+1)*10*time_scale / 60 : round(1 - i/6, 2) for i in range(6)})
+        data = tester.weighted_catchment(max_cost = 60, normalize = True, weight_fn = tri)
     elif method == '2SFCA':
-        data = tester.two_stage_fca(max_cost = 60, normalize = True)
+        data = tester.two_stage_fca(max_cost = time_scale, normalize = True)
     elif method == 'E2SFCA':
-        data = tester.enhanced_two_stage_fca(max_cost = 60, normalize = True)
+        wfn = weights.step_fn({k * 20 * time_scale / 60 : v 
+                               for k, v in {1 : 1, 2 : 0.68, 3 : 0.22}.items()})
+        data = tester.enhanced_two_stage_fca(max_cost = time_scale, normalize = True, weight_fn = wfn)
     elif method == '3SFCA':
-        data = tester.three_stage_fca(max_cost = 60, normalize = True)
+        wfn = weights.step_fn({k * 10 * time_scale / 60 : v
+                               for k, v in {1 : 0.962, 2 : 0.704, 3 : 0.377, 6 : 0.042}.items()})
+        data = tester.three_stage_fca(max_cost = time_scale, normalize = True, weight_fn = wfn)
     else:
-        data = tester.raam(tau = 60, verbose = True)
+        data = tester.raam(tau = time_scale, verbose = True)
 
     
-    print(data.head())
+    # print(data.head())
 
     s3Objs = []
     key = 'tempAccessData/' + uuid + '.csv'

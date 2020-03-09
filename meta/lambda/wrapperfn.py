@@ -13,10 +13,11 @@ def lambda_handler(event, context):
         data['city'] = event['city']
         data['county'] = event['county']
         data['state'] = event['state']
+        data['time'] = event['time']
         
     data['id'] = uid
     lambda_client = boto3.client('lambda')
-    print("Sending",data)
+    print("Sending", data["method"], data["city"], data["county"], data["state"], data["time"])
     byteEvent = json.dumps(data).encode()
     lambda_client.invoke(FunctionName="access",InvocationType='Event', Payload = byteEvent)
 

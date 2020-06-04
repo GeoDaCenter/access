@@ -4,7 +4,7 @@ import boto3, json
 from access.access import *
 
 s3 = boto3.resource('s3')
-bucketName = 'tract-access-csds'
+bucketName = 'uchicago-csds-access'
 
 
 def saveToS3(df, name, bucketName, useIndex = False):
@@ -18,7 +18,8 @@ def lambda_handler(event, context):
 
     #Parse recieved data
 
-    print("Recieved data", event)
+    print("Received data", event)
+    print(bucketName)
     print(type(event))
 
     data   = event['tract']

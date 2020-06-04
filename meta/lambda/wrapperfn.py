@@ -27,5 +27,5 @@ def lambda_handler(event, context):
         'content-type': 'application/json',
         'Access-Control-Allow-Origin': '*' 
     },
-        'body': json.dumps('https://tract-access-csds.s3.us-east-1.amazonaws.com/tempAccessData/' + uid + '.csv')
+        'body': json.dumps('https://uchicago-csds-access.s3.us-east-1.amazonaws.com/tempAccessData/' + uid + '.csv')
     }
